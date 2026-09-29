@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Navigator School — Научите браузер работать</title>
+    <style>
+        /* ============================================
+           JAVASCRIPT NAVIGATOR SCHOOL — 1996
+           Визуальный язык: ранний коммерческий веб
+           1995–1997
+           ============================================ */
+
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "Times New Roman", Times, serif;
+            font-size: 13px;
+            line-height: 1.3;
+            color: #000000;
+            background-color: #c0c0c0;
+            padding: 4px;
+        }
+
+        /* Основной контейнер — имитация окна браузера */
+        .browser-window {
+            max-width: 760px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border: 2px solid #000000;
+        }
+
+        /* Панель браузера — табличная структура как в 1996 */
+        .browser-toolbar {
+            background-color: #000080;
+            color: #ffffff;
+            padding: 3px 6px;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 11px;
+            display: table;
+            width: 100%;
+            border-bottom: 2px solid #000000;
+        }
+
+        .browser-toolbar .toolbar-title {
+            display: table-cell;
+            vertical-align: middle;
+            white-space: nowrap;
+        }
+
+        .browser-toolbar .url-bar {
+            display: table-cell;
+            vertical-align: middle;
+            background-color: #ffffff;
+            color: #000000;
+            padding: 2px 4px;
+            font-size: 11px;
+            width: 100%;
+            margin-left: 6px;
+            border: 1px inset #808080;
+        }
+
+        .browser-toolbar .toolbar-year {
+            display: table-cell;
+            vertical-align: middle;
+            white-space: nowrap;
+            padding-left: 6px;
+        }
+
+        /* Навигационная полоса */
+        .nav-bar {
+            background-color: #c0c0c0;
+            padding: 3px 6px;
+            border-bottom: 2px solid #000000;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 10px;
+        }
+
+        .nav-bar a {
+            color: #000080;
+            text-decoration: underline;
+            margin-right: 8px;
+        }
+
+        .nav-bar a:visited {
+            color: #800080;
+        }
+
+        /* Основное содержимое */
+        .content {
+            padding: 8px;
+        }
+
+        /* Общие стили блоков */
+        .block {
+            margin-bottom: 10px;
+            border: 1px solid #000000;
+            padding: 6px;
+            background-color: #ffffff;
+        }
+
+        .block-title {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 14px;
+            font-weight: bold;
+            color: #000080;
+            margin-bottom: 6px;
+            border-bottom: 1px solid #808080;
+            padding-bottom: 3px;
+        }
+
+        .block-subtitle {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 12px;
+            color: #404040;
+            margin-bottom: 6px;
+        }
+
+        /* Блок 1 — Первый экран */
+        #opening {
+            background-color: #ffffff;
+            border: 2px solid #000000;
+            text-align: center;
+            padding: 10px 8px;
+        }
+
+        #opening h1 {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 18px;
+            color: #000080;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+
+        #opening .tagline {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 13px;
+            font-weight: bold;
+            color: #000000;
+            margin-bottom: 6px;
+        }
+
+        #opening .description {
+            font-size: 12px;
+            color: #000000;
+            margin-bottom: 6px;
+        }
+
+        #opening .year-badge {
+            display: inline-block;
+            background-color: #000080;
+            color: #ffffff;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 10px;
+            padding: 2px 8px;
+            border: 1px solid #000000;
+        }
+
+        /* Блок 2 — Проблема */
+        #problem {
+            background-color: #ffffff;
+        }
+
+        .problem-scheme {
+            display: table;
+            width: 100%;
+            margin: 6px 0;
+            border-collapse: collapse;
+        }
+
+        .problem-row {
+            display: table-row;
+        }
+
+        .problem-cell {
+            display: table-cell;
+            padding: 4px 6px;
+            border: 1px solid #808080;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 10px;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .problem-cell.arrow {
+            background-color: #c0c0c0;
+            width: 24px;
+            font-size: 12px;
+        }
+
+        .problem-cell.label {
+            background-color: #e0e0e0;
+            font-weight: bold;
+            width: 100px;
+        }
+
+        .problem-cell.value {
+            background-color: #ffffff;
+        }
+
+        /* Блок 3 — Язык */
+        #language {
+            background-color: #ffffff;
+        }
+
+        .code-block {
+            background-color: #000000;
+            color: #00ff00;
+            font-family: "Courier New", Courier, monospace;
+            font-size: 11px;
+            padding: 6px;
+            margin: 6px 0;
+            border: 1px inset #808080;
+            white-space: pre;
+            overflow-x: auto;
+            line-height: 1.4;
+        }
+
+        .code-comment {
+            color: #808080;
+        }
+
+        .code-keyword {
+            color: #ffff00;
+        }
+
+        .code-string {
+            color: #00ffff;
+        }
+
+        /* Блок 4 — Браузер */
+        #browser {
+            background-color: #ffffff;
+        }
+
+        .timeline {
+            margin: 6px 0;
+        }
+
+        .timeline-item {
+            display: table;
+            width: 100%;
+            margin-bottom: 3px;
+            border-collapse: collapse;
+        }
+
+        .timeline-year {
+            display: table-cell;
+            width: 50px;
+            padding: 3px 6px;
+            background-color: #000080;
+            color: #ffffff;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 10px;
+            font-weight: bold;
+            text-align: center;
+            border: 1px solid #000000;
+            vertical-align: middle;
+        }
+
+        .timeline-event {
+            display: table-cell;
+            padding: 3px 8px;
+            background-color: #f0f0f0;
+            border: 1px solid #808080;
+            border-left: none;
+            font-size: 11px;
+        }
+
+        /* Блок 5 — Курс */
+        #course {
+            background-color: #ffffff;
+        }
+
+        .lesson-list {
+            list-style: none;
+            margin: 6px 0;
+        }
+
+        .lesson-item {
+            padding: 4px 6px;
+            margin-bottom: 3px;
+            border: 1px solid #808080;
+            background-color: #f8f8f8;
+        }
+
+        .lesson-number {
+            display: inline-block;
+            background-color: #000080;
+            color: #ffffff;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 9px;
+            padding: 1px 4px;
+            margin-right: 6px;
+        }
+
+        .lesson-title {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 11px;
+            font-weight: bold;
+            color: #000080;
+        }
+
+        .lesson-desc {
+            font-size: 11px;
+            color: #404040;
+            margin-top: 2px;
+            margin-left: 30px;
+        }
+
+        /* Блок 6 — Будущее */
+        #future {
+            background-color: #000080;
+            color: #ffffff;
+            text-align: center;
+            padding: 12px 8px;
+        }
+
+        #future .block-title {
+            color: #ffffff;
+            border-bottom-color: #ffffff;
+        }
+
+        #future .future-text {
+            font-size: 12px;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        #future .future-quote {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 13px;
+            font-weight: bold;
+            color: #ffffff;
+            border: 1px solid #ffffff;
+            display: inline-block;
+            padding: 4px 12px;
+            margin-top: 4px;
+        }
+
+        /* Блок 7 — Запись */
+        #registration {
+            background-color: #c0c0c0;
+            text-align: center;
+            border: 2px solid #000000;
+        }
+
+        #registration .block-title {
+            color: #000080;
+        }
+
+        #registration .reg-text {
+            font-size: 12px;
+            margin-bottom: 8px;
+        }
+
+        .btn-register {
+            display: inline-block;
+            background-color: #c0c0c0;
+            color: #000000;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 12px;
+            font-weight: bold;
+            padding: 4px 16px;
+            border: 2px outset #ffffff;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .btn-register:active {
+            border-style: inset;
+        }
+
+        /* Подвал */
+        .footer {
+            background-color: #c0c0c0;
+            border-top: 2px solid #000000;
+            padding: 4px 8px;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 9px;
+            color: #404040;
+            text-align: center;
+        }
+
+        .footer a {
+            color: #000080;
+        }
+
+        /* Разделитель */
+        hr.separator {
+            border: none;
+            border-top: 1px solid #808080;
+            margin: 10px 0;
+        }
+
+        /* Информационная строка */
+        .info-strip {
+            background-color: #ffffff;
+            border: 1px solid #808080;
+            padding: 3px 6px;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 10px;
+            color: #404040;
+            margin-bottom: 6px;
+            text-align: center;
+        }
+
+        /* Стили для изображений-заглушек */
+        .image-placeholder {
+            border: 1px solid #808080;
+            background-color: #f0f0f0;
+            padding: 8px;
+            text-align: center;
+            margin: 6px 0;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 10px;
+            color: #808080;
+        }
+
+        .image-placeholder .placeholder-icon {
+            font-size: 16px;
+            margin-bottom: 2px;
+        }
+
+        /* Таблица сравнения браузеров — стиль 1996 */
+        .browser-compare {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 6px 0;
+            font-size: 11px;
+            border: 1px solid #000000;
+        }
+
+        .browser-compare th {
+            background-color: #000080;
+            color: #ffffff;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 10px;
+            padding: 3px 6px;
+            border: 1px solid #000000;
+            text-align: left;
+        }
+
+        .browser-compare td {
+            padding: 3px 6px;
+            border: 1px solid #808080;
+        }
+
+        .browser-compare tr:nth-child(even) td {
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================
+         ОСНОВНОЕ ОКНО БРАУЗЕРА
+         ============================================ -->
+    <div class="browser-window">
+
+        <!-- Панель инструментов браузера -->
+        <div class="browser-toolbar">
+            <span class="toolbar-title">Netscape Navigator</span>
+            <span class="url-bar">file:///JavaScript_Navigator_School/index.html</span>
+            <span class="toolbar-year">[1996]</span>
+        </div>
+
+        <!-- Навигация -->
+        <div class="nav-bar">
+            <a href="#opening">Главная</a>
+            <a href="#problem">Проблема</a>
+            <a href="#language">Язык</a>
+            <a href="#browser">Браузер</a>
+            <a href="#course">Курс</a>
+            <a href="#future">Будущее</a>
+            <a href="#registration">Запись</a>
+        </div>
+
+        <!-- Информационная строка -->
+        <div class="content">
+            <div class="info-strip">
+                JavaScript Navigator School — курсы для создателей веб-страниц — Набор 1996 года
+            </div>
+
+            <!-- ============================================
+                 БЛОК 1: ПЕРВЫЙ ЭКРАН
+                 ============================================ -->
+            <div class="block" id="opening">
+                <h1>JAVASCRIPT NAVIGATOR SCHOOL</h1>
+                <div class="tagline">Научите браузер работать.</div>
+                <div class="description">
+                    Ваши страницы уже показывают информацию.<br>
+                    Теперь они могут реагировать на посетителя.
+                </div>
+                <div class="year-badge">Курсы для создателей веб-страниц. 1996.</div>
+            </div>
+
+            <!-- ============================================
+                 БЛОК 2: ПРОБЛЕМА
+                 ============================================ -->
+            <div class="block" id="problem">
+                <div class="block-title">Проблема — страницы умеют показывать, но не умеют реагировать</div>
+
+                <p style="font-size: 13px; margin-bottom: 8px;">
+                    <strong>HTML рассказывает браузеру, что показать. JavaScript помогает объяснить, что делать.</strong>
+                </p>
+
+                <p style="font-size: 12px; color: #404040; margin-bottom: 10px;">
+                    Ранний веб быстро развивался, но обычная веб-страница в основном оставалась документом.
+                    JavaScript добавил возможность выполнять сценарии в браузере и реагировать на действия пользователя.
+                </p>
+
+                <!-- Схема -->
+                <div class="problem-scheme">
+                    <div class="problem-row">
+                        <div class="problem-cell label">HTML</div>
+                        <div class="problem-cell arrow">&rarr;</div>
+                        <div class="problem-cell value">Страница отображается</div>
+                    </div>
+                    <div class="problem-row">
+                        <div class="problem-cell label">JavaScript</div>
+                        <div class="problem-cell arrow">&rarr;</div>
+                        <div class="problem-cell value">Страница выполняет действие</div>
+                    </div>
+                    <div class="problem-row">
+                        <div class="problem-cell label">Браузер</div>
+                        <div class="problem-cell arrow">&rarr;</div>
+                        <div class="problem-cell value">Выполняет сценарий</div>
+                    </div>
+                </div>
+
+                <!-- Место для изображения -->
+                <div class="image-placeholder" id="img-problem">
+                    <div class="placeholder-icon">[IMG]</div>
+                    <div>Здесь будет изображение: схема работы страницы<br>
+                    <small>assets/images/web-1996-reference.png</small></div>
+                </div>
+            </div>
+
+            <!-- ============================================
+                 БЛОК 3: ЯЗЫК
+                 ============================================ -->
+            <div class="block" id="language">
+                <div class="block-title">Язык — несколько строк, новое поведение</div>
+
+                <p style="font-size: 13px; margin-bottom: 8px;">
+                    <strong>Несколько строк могут изменить страницу.</strong>
+                </p>
+
+                <p style="font-size: 12px; color: #404040; margin-bottom: 8px;">
+                    JavaScript — это язык программирования, встроенный в браузер.
+                    Он позволяет странице выполнять команды и реагировать на действия посетителя.
+                </p>
+
+                <!-- Пример кода -->
+                <div class="code-block"><span class="code-comment">&lt;!-- Простой сценарий для страницы --&gt;</span>
+<span class="code-keyword">&lt;script&gt;</span>
+  <span class="code-comment">// Страница отвечает на действие посетителя</span>
+  <span class="code-keyword">function</span> показатьПриветствие() {
+    alert(<span class="code-string">"Добро пожаловать на страницу!"</span>);
+  }
+<span class="code-keyword">&lt;/script&gt;</span>
+
+<span class="code-comment">&lt;!-- Кнопка вызывает сценарий --&gt;</span>
+&lt;button onclick=<span class="code-string">"показатьПриветствие()"</span>&gt;
+  Нажмите меня
+&lt;/button&gt;</div>
+
+                <p style="font-size: 11px; color: #808080; margin-top: 6px;">
+                    Пример стилизован для учебных целей. Реальный синтаксис 1995–1997 годов отличался от современного JavaScript.
+                </p>
+            </div>
+
+            <!-- ============================================
+                 БЛОК 4: БРАУЗЕР
+                 ============================================ -->
+            <div class="block" id="browser">
+                <div class="block-title">Браузер — новая программная платформа</div>
+
+                <p style="font-size: 13px; margin-bottom: 8px;">
+                    <strong>Ваш браузер может больше, чем показывать страницы.</strong>
+                </p>
+
+                <p style="font-size: 12px; color: #404040; margin-bottom: 10px;">
+                    JavaScript появился в Netscape Navigator 2.0 и позволил браузеру выполнять сценарии.
+                </p>
+
+                <!-- Временная шкала -->
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-year">1995</div>
+                        <div class="timeline-event">JavaScript появляется в Netscape Navigator 2.0</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-year">1996</div>
+                        <div class="timeline-event">Internet Explorer 3.0 получает JScript</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-year">1996</div>
+                        <div class="timeline-event">Начинается работа над стандартизацией</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-year">1997</div>
+                        <div class="timeline-event">Принимается первая редакция ECMAScript</div>
+                    </div>
+                </div>
+
+                <!-- Таблица браузеров -->
+                <table class="browser-compare">
+                    <thead>
+                        <tr>
+                            <th>Браузер</th>
+                            <th>Технология</th>
+                            <th>Год</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Netscape Navigator 2.0</td>
+                            <td>JavaScript</td>
+                            <td>1995</td>
+                        </tr>
+                        <tr>
+                            <td>Internet Explorer 3.0</td>
+                            <td>JScript</td>
+                            <td>1996</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- Место для изображения -->
+                <div class="image-placeholder" id="img-browser">
+                    <div class="placeholder-icon">[IMG]</div>
+                    <div>Здесь будет изображение: интерфейс Netscape Navigator<br>
+                    <small>assets/images/netscape-1996.png</small></div>
+                </div>
+            </div>
+
+            <!-- ============================================
+                 БЛОК 5: КУРС
+                 ============================================ -->
+            <div class="block" id="course">
+                <div class="block-title">Курс для тех, кто хочет больше от своей страницы</div>
+
+                <p style="font-size: 12px; color: #404040; margin-bottom: 10px;">
+                    Все занятия основаны на реальной исторической ценности JavaScript — программируемом поведении веб-страницы.
+                </p>
+
+                <ul class="lesson-list">
+                    <li class="lesson-item">
+                        <span class="lesson-number">Урок 1</span>
+                        <span class="lesson-title">Сценарий внутри страницы</span>
+                        <div class="lesson-desc">Знакомство с JavaScript и ролью браузера.</div>
+                    </li>
+                    <li class="lesson-item">
+                        <span class="lesson-number">Урок 2</span>
+                        <span class="lesson-title">Страница отвечает посетителю</span>
+                        <div class="lesson-desc">Основы интерактивного поведения.</div>
+                    </li>
+                    <li class="lesson-item">
+                        <span class="lesson-number">Урок 3</span>
+                        <span class="lesson-title">Формы и действия</span>
+                        <div class="lesson-desc">Как сделать страницу реагирующей на действия пользователя.</div>
+                    </li>
+                    <li class="lesson-item">
+                        <span class="lesson-number">Урок 4</span>
+                        <span class="lesson-title">Браузер как программная среда</span>
+                        <div class="lesson-desc">Почему веб-страница может стать чем-то большим, чем документ.</div>
+                    </li>
+                    <li class="lesson-item">
+                        <span class="lesson-number">Урок 5</span>
+                        <span class="lesson-title">Будущее интерактивного веба</span>
+                        <div class="lesson-desc">Разговор о том, куда может двигаться новая веб-технология.</div>
+                    </li>
+                </ul>
+
+                <!-- Место для изображения -->
+                <div class="image-placeholder" id="img-course">
+                    <div class="placeholder-icon">[IMG]</div>
+                    <div>Здесь будет изображение: учебный материал<br>
+                    <small>assets/images/windows-95.png</small></div>
+                </div>
+            </div>
+
+            <!-- ============================================
+                 БЛОК 6: БУДУЩЕЕ
+                 ============================================ -->
+            <div class="block" id="future">
+                <div class="block-title">А что, если веб-страница сможет больше?</div>
+
+                <div class="future-text">
+                    Сегодня страница показывает информацию.<br>
+                    Завтра она может реагировать, выполнять сценарии<br>
+                    и становиться частью программной среды.
+                </div>
+
+                <p style="font-size: 13px; margin-bottom: 10px;">
+                    JavaScript предлагается как один из инструментов этого перехода.
+                </p>
+
+                <div class="future-quote">
+                    «Не просто смотрите на веб.<br>
+                    Программируйте его.»
+                </div>
+            </div>
+
+            <!-- ============================================
+                 БЛОК 7: ЗАПИСЬ
+                 ============================================ -->
+            <div class="block" id="registration">
+                <div class="block-title">Готовы научить свой браузер новому?</div>
+
+                <div class="reg-text">
+                    <strong>Запишитесь на первый набор JavaScript Navigator School.</strong><br>
+                    <span style="font-size: 12px; color: #404040;">Набор для создателей веб-страниц.</span>
+                </div>
+
+                <a href="mailto:info@javascript-navigator-school.example?subject=Запись на курс JavaScript Navigator School — Набор 1996" class="btn-register">
+                    ЗАПИСАТЬСЯ
+                </a>
+
+                <p style="font-size: 10px; color: #808080; margin-top: 10px;">
+                    Нажимая кнопку, вы соглашаетесь получать информацию о курсе.<br>
+                    JavaScript Navigator School — вымышленный учебный проект.
+                </p>
+            </div>
+
+        </div><!-- /content -->
+
+        <!-- Подвал -->
+        <div class="footer">
+            JavaScript Navigator School &copy; 1996 |
+            <a href="#opening">Наверх</a> |
+            Создано с использованием HTML и JavaScript |
+            Лабораторная работа — Вариант 25
+        </div>
+
+    </div><!-- /browser-window -->
+
+</body>
+</html>
